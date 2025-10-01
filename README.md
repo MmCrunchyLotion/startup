@@ -58,21 +58,21 @@ I am going to use the required technologies in the following ways.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Server deployed and accessible with custom domain name** - [My server link](https://yourdomainnamehere.click).
+- [x] **Server deployed and accessible with custom domain name** - [My server link](https://matchyourmusic.com/).
 
 ## 🚀 HTML deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] **HTML pages** - I added a home, find a teacher, events, and profile page
+- [x] **Proper HTML element usage** - I used different h tags, created different div classes to show what structures I want js to be able to create/mimic
+- [x] **Links** - There is a link to my git repo, and each of the pages
+- [x] **Text** - There is a lot of text, most is so that I can use them as templates for js functions.
+- [x] **3rd party API placeholder** - Each event and teacher location will be clickable, this will pull a location up on google maps.
+- [x] **Images** - I did put photos in, I hope you enjoy them. I even added a page logo.
+- [x] **Login placeholder** - I did this.
+- [x] **DB data placeholder** - I did this. Accounts will appear when people search for them.
+- [x] **WebSocket placeholder** - I did this. Posts will appear as users create them.
 
 ## 🚀 CSS deliverable
 
