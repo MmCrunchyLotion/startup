@@ -14,15 +14,16 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="teacher-finder.html">Find a teacher</a></li>
             <li><a href="events.html">Events</a></li>
-            <li><a href="profile.html">Profile</a></li>
+            <!-- need to add js that displays log in button if you are not logged in, and a link to your profile if you are logged in -->
+            <li><a href="profile.html">Profile</a><button id="log-in">Log In</button></li>
             <!-- <li><a href="about.html">About</a></li> -->
             </menu>
         </nav>
     </header>
     <main>
+        <h1>Welcome to Match your Music!</h1>
         <button id="new-post-btn">Create New Post</button>
         <div class="main-feed">
-            <h1>Welcome to Match your Music!</h1>
             <h2>Your feed (websocket data)</h2>
             <div class="feed">
                 <!-- TODO: create a function in js that will display different posts from users -->
@@ -37,6 +38,7 @@
                     <p class="event-location">Location: Provo High School</p>
                     <p class="post-content">Join us for a week of music, fun, and learning! Sign up now!</p>
                 </div>
+                <p><br /></p>
                 <div class="user-post">
                     <div class="post-info">
                         <p class="username">Jazzman123</p>
@@ -45,6 +47,7 @@
                     <p class="post-content">Excited for the upcoming band showcase! Come watch me perform!</p>
                     <p class="event-link"><i>Local Band Showcase</i></p>
                 </div>
+                <p><br /></p>
                 <div class="teacher-post">
                     <div class="post-info">
                         <p class="username">GuitarGuru</p>
