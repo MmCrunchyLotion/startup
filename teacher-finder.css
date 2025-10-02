@@ -30,6 +30,8 @@ main .teacher-card p {
   margin-top: .05em;
   margin-bottom: .05em;
   text-align: left;
+  font-family: Quicksand, sans-serif;
+
 }
 
 main .teacher-photo img {

@@ -60,11 +60,11 @@ main .post {
 main .post p {
   margin-top: .05em;
   margin-bottom: .05em;
+  font-family: Quicksand, sans-serif;
 }
 
 main .post-info {
   text-align: left;
-  /* margin-bottom: 1em; */
 }
 
 footer {
