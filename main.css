@@ -8,34 +8,64 @@ header {
   flex: 0 80px;
 }
 
+header .main-content-header {
+  text-align: center;
+  background-color: #ffffff;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  border-radius: 0.5em;
+}
+
 main {
   flex: 1 calc(100vh - 110px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  background-color: #f5afa3;
+}
+
+main .feed {
+  flex: 1 calc(100vh - 110px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.5em;
+  justify-content: space-around;
+  background-color: #ffffff;
+
+}
+
+main .main-feed {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+main .post {
+  align-items: center;
+  border: solid #000000 thin;
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em;
+  width: 90%;
+}
+main .post-info {
+  text-align: left;
+  /* margin-bottom: 1em; */
 }
 
 footer {
   flex: 0 30px;
 }
 
-menu {
-  flex: 1;
-  display: flex;
-  /*  overwrite Bootstrap so the menu does not wrap */
-  flex-direction: row !important;
-  list-style: none;
-}
-
 .navbar-brand {
   padding-left: 0.3em;
-  border-bottom: solid rgb(182, 182, 182) thin;
-}
-
-menu .nav-item {
-  color: #000000;
-  padding: 0 0.3em;
+  border-bottom: solid #000000 thin;
 }
 
 footer a {
@@ -53,3 +83,6 @@ footer a {
     flex: 1 100vh;
   }
 }
+
+
+
