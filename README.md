@@ -2,7 +2,6 @@
 
 [My Notes](notes.md) <!-- link to notes.md-->
 
-<!-- A brief description of the application here. -->
 ### App description
 I plan to make an app that will allow music teachers to find students in their area, and vice versa. The app will prioritize easy access information about a teacher's qualifications, accomplishments, teaching style, and the rating that their students give them. Ideally it would allow for students to have a greater amount of freedom when it comes to choosing teachers, in addition to allowing teachers to expand the number of people that are exposed to their studios.
 
@@ -10,8 +9,6 @@ I plan to make an app that will allow music teachers to find students in their a
 <!-- If you are not familiar with Markdown then you should review the [documentation](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) before continuing. -->
 
 ## 🚀 Specification Deliverable
-
-<!-- Fill in this sections as the submission artifact for this deliverable. You can refer to this [example](https://github.com/webprogramming260/startup-example/blob/main/README.md) for inspiration. -->
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
@@ -28,14 +25,6 @@ My wife wants a music teacher dating app. Well, more realistically an app that m
 ### Design
 
 ![Design image](example_page.png)
-
-
-<!-- ```mermaid
-sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
-``` -->
 
 ### Key features
 
@@ -78,12 +67,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Header, footer, and main content body** - I did not complete this part of the deliverable.
-- [ ] **Navigation elements** - I did not complete this part of the deliverable.
-- [ ] **Responsive to window resizing** - I did not complete this part of the deliverable.
-- [ ] **Application elements** - I did not complete this part of the deliverable.
-- [ ] **Application text content** - I did not complete this part of the deliverable.
-- [ ] **Application images** - I did not complete this part of the deliverable.
+- [x] **Header, footer, and main content body** - The header footer and main content are distinct, shown through coloring.
+- [x] **Navigation elements** - The navigation elements are similar to the simon code, but I changed it to match the bootstrap examples.
+- [x] **Responsive to window resizing** - The pages do adjust to window resizing, I still need to figure out how to stop the header from disappearing when the window gets too small.
+- [x] **Application elements** - I made feed windows, as well as profile windows.
+- [x] **Application text content** - I changed a few of the fonts, and italicized some of the text.
+- [x] **Application images** - I made the profile pictures into thumbnail sized portraits. I need to figure out what style I prefer as the two images are slightly different.
 
 ## 🚀 React part 1: Routing deliverable
 

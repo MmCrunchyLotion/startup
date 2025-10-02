@@ -15,7 +15,7 @@
     />
   </head>
 
-  <body class="bg-light text-dark">
+  <body style="background-color: #ff6347;">
     <header class="container-fluid">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
@@ -25,24 +25,29 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="teacher-finder.html">Find a teacher</a></li>
-                        <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
-                        <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" href="teacher-finder.html">Find a teacher</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" href="events.html">Events</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" href="profile.html">Profile</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
+        <div class="content-header">
+            <h1>Welcome to Match your Music!</h1>
+            <button class="btn btn-primary text-dark" type="button" style="background-color: #ff6347;">Create New Post</button>
+        </div>
     </header>
 
-    <main>
-        <h1>Welcome to Match your Music!</h1>
-        <button id="new-post-btn">Create New Post</button>
-        <div class="main-feed">
+
+
+    <main class="container-fluid text-center">
+        <!-- <button class="create-post-button" id="new-post-btn">Create New Post</button> -->
+        <div class="outer-feed">
             <h2>Your feed (websocket data)</h2>
-            <div class="feed">
+            <div class="inner-feed">
                 <!-- TODO: create a function in js that will display different posts from users -->
-                <div class="event-post">
+                <div class="post">
                     <div class="post-info">
                         <p class="username">Provo High Bulldogs</p>
                         <p class="timestamp">2 hours ago</p>
@@ -53,8 +58,7 @@
                     <p class="event-location">Location: Provo High School (3rd party api)</p>
                     <p class="post-content">Join us for a week of music, fun, and learning! Sign up now!</p>
                 </div>
-                <p><br /></p>
-                <div class="user-post">
+                <div class="post">
                     <div class="post-info">
                         <p class="username">Jazzman123</p>
                         <p class="timestamp">3 hours ago</p>
@@ -62,8 +66,7 @@
                     <p class="post-content">Excited for the upcoming band showcase! Come watch me perform!</p>
                     <p class="event-link"><i>Local Band Showcase</i></p>
                 </div>
-                <p><br /></p>
-                <div class="teacher-post">
+                <div class="post">
                     <div class="post-info">
                         <p class="username">GuitarGuru</p>
                         <p class="timestamp">5 hours ago</p>
@@ -74,8 +77,13 @@
             </div>
         </div>
     </main>
+
     <footer>
-        <a href="https://github.com/MmCrunchyLotion/startup">GitHub Repository</a>
+      <div class="container-fluid">
+        <span class="text-reset">Dane Peterson</span>
+        <a class="text-reset" href="https://github.com/MmCrunchyLotion/startup">GitHub Repository</a>
+      </div>
     </footer>
+
   </body>
 </html>
