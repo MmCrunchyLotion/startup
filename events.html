@@ -33,18 +33,20 @@
                 </div>
             </div>
         </nav>
+        <div class="content-header">
+            <h1>Find music events!</h1>
+            <button class="btn btn-primary text-dark" type="button" style="background-color: #ff6347;">Create New Post</button>
+        </div>
     </header>
 
-    <main class="container-fluid bg-light text-center">
-        <h1>Find music events!</h1>
-        <button id="new-post-btn">Create New Post</button>
+    <main class="container-fluid text-center">
         <!-- TODO: create a function in js that will display different posts from users, 
         automatically filtered to show events -->
-        <div class="events-feed">
+        <div class="outer-feed">
             <h2>Upcoming Events (websocket data)</h2>
-            <div class="feed">
+            <div class="inner-feed">
             <!-- TODO: create a function in js that will display different posts from users -->
-                <div class="event-post">
+                <div class="post">
                     <div class="post-info">
                         <p class="username">Provo High Bulldogs</p>
                         <p class="timestamp">2 hours ago</p>
@@ -55,8 +57,7 @@
                     <p class="event-location">Location: Provo High School (3rd party api)</p>
                     <p class="post-content">Join us for a week of music, fun, and learning! Sign up now!</p>
                 </div>
-                <p><br /></p>
-                <div class="event-post">
+                <div class="post">
                     <div class="post-info">
                         <p class="username">City Music Lovers</p>
                         <p class="timestamp">1 day ago</p> 
@@ -67,8 +68,7 @@
                     <p>Location: Downtown Park (3rd party api)</p>
                     <p>Come support local talent and enjoy an evening of great music!</p>
                 </div>
-                <p><br /></p>
-                <div class="event-post">
+                <div class="post">
                     <div class="post-info">
                         <p class="username">GuitarGuru</p>
                         <p class="timestamp">3 days ago</p>

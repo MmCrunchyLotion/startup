@@ -8,7 +8,7 @@ header {
   flex: 0 80px;
 }
 
-header .main-content-header {
+header .content-header {
   text-align: center;
   background-color: #ffffff;
   margin-top: 1em;
@@ -26,7 +26,17 @@ main {
   background-color: #f5afa3;
 }
 
-main .feed {
+/* find a way to make it so that the width of the feeds are consistent from page to page */
+main .outer-feed {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+main .inner-feed {
   flex: 1 calc(100vh - 110px);
   display: flex;
   flex-direction: column;
@@ -37,15 +47,6 @@ main .feed {
 
 }
 
-main .main-feed {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 1em;
-  padding-bottom: 1em;
-}
-
 main .post {
   align-items: center;
   border: solid #000000 thin;
@@ -54,6 +55,12 @@ main .post {
   margin: 1em;
   width: 90%;
 }
+
+main .post p {
+  margin-top: .05em;
+  margin-bottom: .05em;
+}
+
 main .post-info {
   text-align: left;
   /* margin-bottom: 1em; */
