@@ -78,9 +78,9 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Bundled using Vite** - I did not complete this part of the deliverable.
-- [ ] **Components** - I did not complete this part of the deliverable.
-- [ ] **Router** - I did not complete this part of the deliverable.
+- [x] **Bundled using Vite** - I did this, everything should be included in the node_modules including bootstrap files.
+- [x] **Components** - Each of the pages was switched from html to js, though I need to reformat the css for some of the pages, as the switch from HTML to js made some of the containers change color. 
+- [x] **Router** - Each of the different pages display when you click on them iun the nav bar.
 
 ## 🚀 React part 2: Reactivity deliverable
 
