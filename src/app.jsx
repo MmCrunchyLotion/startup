@@ -1,11 +1,14 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
-import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
-import { Login } from './login/login';
-import { Events } from './events/events';
-import { Profile } from './profile/profile';
-import { FindTeacher } from './teacher-finder/teacher-finder';
+import { BrowserRouter, NavLink, Route, Routes, useLocation } from 'react-router-dom';
+import { Login, LoginHeader } from './login/login';
+import { Events, EventsHeader } from './events/events';
+import { Profile, ProfileHeader } from './profile/profile';
+import { FindTeacher, TeacherFinderHeader } from './teacher-finder/teacher-finder';
+import { CreatePost } from './create-post/create-post';
+
+
 
 export default function App() {
     return (
@@ -28,10 +31,7 @@ export default function App() {
                             </div>
                         </div>
                     </nav>
-                    <div className="content-header">
-                        <h1>Welcome to Match your Music!</h1>
-                        <button className="btn btn-primary text-dark" type="button" style={{backgroundColor: '#ff6347'}}>Create New Post</button>
-                    </div>
+                    <ContentHeader />
                 </header>
 
                 <Routes>
@@ -55,4 +55,26 @@ export default function App() {
 
 function NotFound() {
   return <main className="container-fluid bg-secondary text-center">404: Return to sender. Address unknown.</main>;
+}
+
+function ContentHeader() {
+    const location = useLocation();
+
+    const headers = {
+        '/': {
+            function: LoginHeader
+        },
+        '/profile': {
+            function: ProfileHeader
+        },
+        '/events': {
+            function: EventsHeader
+        },
+        '/teacher-finder': {
+            function: TeacherFinderHeader
+        }
+    };
+
+    const HeaderComponent = headers[location.pathname].function || headers['/'].function;
+    return <HeaderComponent />;
 }

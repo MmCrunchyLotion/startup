@@ -47,3 +47,12 @@ export function Events() {
     </main>
   );
 }
+
+export function EventsHeader() {
+    return (
+        <div className="content-header">
+            <h1>Find music events!</h1>
+            <button className="btn btn-primary text-dark" type="button" style={{backgroundColor: '#ff6347'}}>Create New Post</button>
+        </div>
+    );
+}

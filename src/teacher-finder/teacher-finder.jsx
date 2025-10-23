@@ -22,3 +22,20 @@ export function FindTeacher() {
     </main>
   );
 }
+
+export function TeacherFinderHeader() {
+    return (
+        <div className="content-header">
+            <h1>Find a Music Teacher!</h1>
+            <div className="teacher-search">
+                <h3>Search by location, instrument, or genre</h3>
+                <form id="search-form">
+                    <input type="text" id="zip-input" placeholder="Enter your zip code" />
+                    <input type="text" id="search-input" placeholder="Enter instrument or genre" />
+                    <button className="btn btn-secondary" type="filter">Filter</button>
+                    <button className="btn btn-primary" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    );
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 export function Profile() {
   return (
     <main className="container-fluid text-center">
@@ -33,5 +34,13 @@ export function Profile() {
             </div>
         </div>
     </main>
+  );
+}
+
+export function ProfileHeader() {
+  return (
+        <div className="content-header">
+            <button className="btn btn-primary text-dark" type="button" style={{backgroundColor: '#ff6347'}}>Find another person</button>
+        </div>
   );
 }

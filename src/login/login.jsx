@@ -1,7 +1,10 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { CreatePost } from '../create-post/create-post';
 
 export function Login() {
   return (
+
     <main className="container-fluid text-center">
         <div className="outer-feed">
             <h2>Your feed (websocket data)</h2>
@@ -36,5 +39,16 @@ export function Login() {
             </div>
         </div>
     </main>
+  );
+}
+
+export function LoginHeader() {
+  return (
+        <div className="content-header">
+            <h1>Welcome to Match your Music!</h1>
+            <button className="btn btn-primary text-dark" type="button" style={{backgroundColor: '#ff6347'}}>
+                <NavLink className="nav-link text-dark" to="create-post">Create new Post</NavLink>
+            </button>
+        </div>
   );
 }
