@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function PersonSearchForm({ initialData = {}, onSubmit, onCancel }) {
+export function ProfileEditForm({ initialData = {}, onSubmit, onCancel }) {
     const [formData, setFormData] = React.useState({
         name: initialData.name || '',
         location: initialData.location || ''
@@ -19,6 +19,19 @@ export function PersonSearchForm({ initialData = {}, onSubmit, onCancel }) {
     return (
         <form onSubmit={handleSubmit} className="post-form" style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'left' }}>
             <div className="form-group mb-3">
+                <label htmlFor='username'>Username</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    id="username"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    placeholder="Enter a username"
+                />
+            </div>
+
+            <div className="form-group mb-3">
                 <label htmlFor="name">Name</label>
                 <input
                     type="text"
@@ -29,6 +42,19 @@ export function PersonSearchForm({ initialData = {}, onSubmit, onCancel }) {
                     onChange={handleChange}
                     placeholder="Enter a name"
                     required
+                />
+            </div>
+
+            <div className="form-group mb-3">
+                <label htmlFor="bio">Bio</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    id="bio"
+                    name="bio"
+                    value={formData.bio}
+                    onChange={handleChange}
+                    placeholder="Enter a bio"
                 />
             </div>
 
@@ -47,7 +73,7 @@ export function PersonSearchForm({ initialData = {}, onSubmit, onCancel }) {
 
             <div style={{ display: 'flex', gap: '10px' }}>
                 <button type="submit" className="btn btn-primary" style={{ backgroundColor: '#ff6347' }}>
-                    Search
+                    Save Changes
                 </button>
                 {onCancel && (
                     <button type="button" className="btn btn-secondary" onClick={onCancel}>

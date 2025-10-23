@@ -1,7 +1,6 @@
 import React from 'react';
 
 export function CreatePostForm({ initialData = {}, onSubmit, onCancel }) {
-    // initialData can have keys: title, content, eventDate, location
     const [postData, setPostData] = React.useState({
         type: initialData.type || 'general', 
         title: initialData.title || '',

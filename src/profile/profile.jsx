@@ -1,7 +1,16 @@
 import React from 'react';
 import { PersonSearchForm } from '../components/PersonSearchForm';
+import { ProfileEditForm } from '../components/ProfileEditForm';
 
 export function Profile() {
+    const [showForm, setShowForm] = React.useState(false);
+
+    const handleSubmit = (data) => {
+        // TODO: replace with API call
+        console.log('Submitted from shared form:', data);
+        setShowForm(false);
+    };
+
     return (
         <main className="container-fluid text-center">
             {/* <!-- need to implement a way to view other people's profiles, rather than just your own --> */}
@@ -16,7 +25,18 @@ export function Profile() {
                             <p className="account-type">Account Type: User</p>
                             <p className="location">Location: Provo, UT</p>
                         </div>
-                        <button className="btn btn-primary text-dark" type="button" style={{ backgroundColor: '#ff6347' }}>Edit Profile</button>
+                        {!showForm ? (
+                            <button
+                                className="btn btn-primary text-dark"
+                                type="button"
+                                style={{ backgroundColor: '#ff6347' }}
+                                onClick={() => setShowForm(true)}
+                            >
+                                Edit Profile
+                            </button>
+                        ) : (
+                            <ProfileEditForm onSubmit={handleSubmit} onCancel={() => setShowForm(false)} />
+                        )}
                     </div>
                 </div>
             </div>
