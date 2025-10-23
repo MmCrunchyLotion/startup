@@ -3,7 +3,7 @@ import React from 'react';
 export function CreatePostForm({ initialData = {}, onSubmit, onCancel }) {
     // initialData can have keys: title, content, eventDate, location
     const [postData, setPostData] = React.useState({
-        // type: initialData.type || 'general',
+        type: initialData.type || 'general', 
         title: initialData.title || '',
         content: initialData.content || '',
         eventDate: initialData.eventDate || '',
@@ -16,6 +16,7 @@ export function CreatePostForm({ initialData = {}, onSubmit, onCancel }) {
     };
 
     const handleSubmit = (e) => {
+
         e.preventDefault();
         if (onSubmit) onSubmit(postData);
     };
@@ -23,18 +24,35 @@ export function CreatePostForm({ initialData = {}, onSubmit, onCancel }) {
     return (
         <form onSubmit={handleSubmit} className="post-form" style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'left' }}>
             <div className="form-group mb-3">
-                <label htmlFor="title">Title</label>
-                <input
-                    type="text"
+                <label htmlFor="type">Post Type</label>
+                <select
                     className="form-control"
-                    id="title"
-                    name="title"
-                    value={postData.title}
+                    id="type"
+                    name="type"
+                    value={postData.type}
                     onChange={handleChange}
-                    placeholder="Enter post title"
-                    required
-                />
+                >
+                    <option value="general">General Post</option>
+                    <option value="event">Event</option>
+                </select>
             </div>
+
+            {postData.type === 'event' && (
+                <div className="form-group mb-3">
+                    <label htmlFor="title">Title</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="title"
+                        name="title"
+                        value={postData.title}
+                        onChange={handleChange}
+                        placeholder="Enter post title"
+                        required
+                    />
+                </div>
+            )}
+
 
             <div className="form-group mb-3">
                 <label htmlFor="content">Content</label>
@@ -50,30 +68,34 @@ export function CreatePostForm({ initialData = {}, onSubmit, onCancel }) {
                 />
             </div>
 
-            <div className="form-group mb-3">
-                <label htmlFor="eventDate">Event Date (optional)</label>
-                <input
-                    type="date"
-                    className="form-control"
-                    id="eventDate"
-                    name="eventDate"
-                    value={postData.eventDate}
-                    onChange={handleChange}
-                />
-            </div>
+            {postData.type === 'event' && (
+                <>
+                    <div className="form-group mb-3">
+                        <label htmlFor="eventDate">Event Date (optional)</label>
+                        <input
+                            type="date"
+                            className="form-control"
+                            id="eventDate"
+                            name="eventDate"
+                            value={postData.eventDate}
+                            onChange={handleChange}
+                        />
+                    </div>
 
-            <div className="form-group mb-3">
-                <label htmlFor="location">Location (optional)</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="location"
-                    name="location"
-                    value={postData.location}
-                    onChange={handleChange}
-                    placeholder="Enter event location"
-                />
-            </div>
+                    <div className="form-group mb-3">
+                        <label htmlFor="location">Location (optional)</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="location"
+                            name="location"
+                            value={postData.location}
+                            onChange={handleChange}
+                            placeholder="Enter event location"
+                        />
+                    </div>
+                </>
+            )}
 
             <div style={{ display: 'flex', gap: '10px' }}>
                 <button type="submit" className="btn btn-primary" style={{ backgroundColor: '#ff6347' }}>
