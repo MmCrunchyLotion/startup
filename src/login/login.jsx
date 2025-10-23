@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { CreatePost } from '../create-post/create-post';
+import { CreatePostForm } from '../components/CreatePostForm';
 
 export function Login() {
   return (
@@ -43,12 +43,93 @@ export function Login() {
 }
 
 export function LoginHeader() {
+  const [showForm, setShowForm] = React.useState(false);
+
+  const handleSubmit = (data) => {
+    // TODO: replace with API call
+    console.log('Submitted from shared form:', data);
+    setShowForm(false);
+  };
+
   return (
-        <div className="content-header">
-            <h1>Welcome to Match your Music!</h1>
-            <button className="btn btn-primary text-dark" type="button" style={{backgroundColor: '#ff6347'}}>
-                <NavLink className="nav-link text-dark" to="create-post">Create new Post</NavLink>
-            </button>
-        </div>
+    <div className="content-header">
+      <h1>Welcome to Match your Music!</h1>
+      {!showForm ? (
+        <button 
+          className="btn btn-primary text-dark" 
+          type="button" 
+          style={{backgroundColor: '#ff6347'}}
+          onClick={() => setShowForm(true)}
+        >
+          Create new Post
+        </button>
+      ) : (
+            <CreatePostForm onSubmit={handleSubmit} onCancel={() => setShowForm(false)} />
+
+        // <form onSubmit={handleSubmit} className="post-form" style={{maxWidth: '500px', margin: 'auto', textAlign: 'left'}}>
+        //   <div className="form-group mb-3">
+        //     <label htmlFor="title">Title</label>
+        //     <input
+        //       type="text"
+        //       className="form-control"
+        //       id="title"
+        //       name="title"
+        //       value={postData.title}
+        //       onChange={handleChange}
+        //       placeholder="Enter post title"
+        //       required
+        //     />
+        //   </div>
+        //   <div className="form-group mb-3">
+        //     <label htmlFor="content">Content</label>
+        //     <textarea
+        //       className="form-control"
+        //       id="content"
+        //       name="content"
+        //       value={postData.content}
+        //       onChange={handleChange}
+        //       rows="3"
+        //       placeholder="What's on your mind?"
+        //       required
+        //     />
+        //   </div>
+        //   <div className="form-group mb-3">
+        //     <label htmlFor="eventDate">Event Date (optional)</label>
+        //     <input
+        //       type="date"
+        //       className="form-control"
+        //       id="eventDate"
+        //       name="eventDate"
+        //       value={postData.eventDate}
+        //       onChange={handleChange}
+        //     />
+        //   </div>
+        //   <div className="form-group mb-3">
+        //     <label htmlFor="location">Location (optional)</label>
+        //     <input
+        //       type="text"
+        //       className="form-control"
+        //       id="location"
+        //       name="location"
+        //       value={postData.location}
+        //       onChange={handleChange}
+        //       placeholder="Enter event location"
+        //     />
+        //   </div>
+        //   <div className="button-group" style={{display: 'flex', gap: '10px'}}>
+        //     <button type="submit" className="btn btn-primary" style={{backgroundColor: '#ff6347'}}>
+        //       Submit Post
+        //     </button>
+        //     <button 
+        //       type="button" 
+        //       className="btn btn-secondary"
+        //       onClick={() => setShowForm(false)}
+        //     >
+        //       Cancel
+        //     </button>
+        //   </div>
+        // </form>
+      )}
+    </div>
   );
 }

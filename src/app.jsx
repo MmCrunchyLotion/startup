@@ -6,7 +6,6 @@ import { Login, LoginHeader } from './login/login';
 import { Events, EventsHeader } from './events/events';
 import { Profile, ProfileHeader } from './profile/profile';
 import { FindTeacher, TeacherFinderHeader } from './teacher-finder/teacher-finder';
-import { CreatePost } from './create-post/create-post';
 
 
 
@@ -39,6 +38,7 @@ export default function App() {
                     <Route path="teacher-finder" element={<FindTeacher />} />
                     <Route path="events" element={<Events />} />
                     <Route path="profile" element={<Profile />} />
+                    {/* <Route path="create-post" element={<CreatePost />} /> */}
                     <Route path="*" element={<NotFound />} />
                 </Routes>
 
