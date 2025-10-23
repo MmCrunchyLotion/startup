@@ -86,8 +86,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
-- [ ] **Hooks** - I did not complete this part of the deliverable.
+- [X] **All functionality implemented or mocked out** - All of my search, edit, and post buttons have all functionality completed, except for database connections.
+- [X] **Hooks** - Unless I misunderstand what hooks are, the components that I added would fit that description.
 
 ## 🚀 Service deliverable
 
