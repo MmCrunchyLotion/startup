@@ -16,7 +16,6 @@ export function CreatePostForm({ initialData = {}, onSubmit, onCancel }) {
     };
 
     const handleSubmit = (e) => {
-
         e.preventDefault();
         if (onSubmit) onSubmit(postData);
     };

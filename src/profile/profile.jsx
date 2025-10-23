@@ -1,4 +1,5 @@
 import React from 'react';
+import { PersonSearchForm } from '../components/PersonSearchForm';
 
 export function Profile() {
     return (
@@ -37,9 +38,29 @@ export function Profile() {
 }
 
 export function ProfileHeader() {
+    const [showForm, setShowForm] = React.useState(false);
+
+    const handleSubmit = (data) => {
+        // TODO: replace with API call
+        console.log('Submitted from shared form:', data);
+        setShowForm(false);
+    };
+
     return (
         <div className="content-header">
-            <button className="btn btn-primary text-dark" type="button" style={{ backgroundColor: '#ff6347' }}>Find another person</button>
+            <h1>Find someone else!</h1>
+            {!showForm ? (
+                <button
+                    className="btn btn-primary text-dark"
+                    type="button"
+                    style={{ backgroundColor: '#ff6347' }}
+                    onClick={() => setShowForm(true)}
+                >
+                    Search
+                </button>
+            ) : (
+                <PersonSearchForm onSubmit={handleSubmit} onCancel={() => setShowForm(false)} />
+            )}
         </div>
     );
 }

@@ -12,11 +12,11 @@ import { FindTeacher, TeacherFinderHeader } from './teacher-finder/teacher-finde
 export default function App() {
     return (
         <BrowserRouter>
-            <div style={{backgroundColor: '#ff6347'}}>
+            <div style={{ backgroundColor: '#ff6347' }}>
                 <header className="container-fluid">
                     <nav className="navbar navbar-expand-lg bg-body-tertiary">
                         <div className="container-fluid">
-                        <div className="navbar-brand" href="#">Match your Music</div>
+                            <div className="navbar-brand" href="#">Match your Music</div>
                             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                 <span className="navbar-toggler-icon"></span>
                             </button>
@@ -43,10 +43,10 @@ export default function App() {
                 </Routes>
 
                 <footer>
-                <div className="container-fluid">
-                    <span className="text-reset">Dane Peterson</span>
-                    <a className="text-reset" href="https://github.com/MmCrunchyLotion/startup">GitHub Repository</a>
-                </div>
+                    <div className="container-fluid">
+                        <span className="text-reset">Dane Peterson</span>
+                        <a className="text-reset" href="https://github.com/MmCrunchyLotion/startup">GitHub Repository</a>
+                    </div>
                 </footer>
             </div>
         </BrowserRouter>
@@ -54,7 +54,7 @@ export default function App() {
 }
 
 function NotFound() {
-  return <main className="container-fluid bg-secondary text-center">404: Return to sender. Address unknown.</main>;
+    return <main className="container-fluid bg-secondary text-center">404: Return to sender. Address unknown.</main>;
 }
 
 function ContentHeader() {
