@@ -1,9 +1,8 @@
 import React from 'react';
 import { CreatePostForm } from '../components/CreatePostForm';
 
-export function Login() {
+export function Homepage() {
     return (
-
         <main className="container-fluid text-center">
             <div className="outer-feed">
                 <h2>Your feed (websocket data)</h2>
@@ -41,7 +40,7 @@ export function Login() {
     );
 }
 
-export function LoginHeader() {
+export function HomepageHeader() {
     const [showForm, setShowForm] = React.useState(false);
 
     const handleSubmit = (data) => {
