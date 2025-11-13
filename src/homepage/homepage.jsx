@@ -42,12 +42,30 @@ export function Homepage() {
 
 export function HomepageHeader() {
     const [showForm, setShowForm] = React.useState(false);
+    // const [postType, setPostType] = React.useState('');
+    // const [postContent, setPostContent] = React.useState('');
 
     const handleSubmit = (data) => {
         // TODO: replace with API call
+        createPost('POST', data);
         console.log('Submitted from shared form:', data);
         setShowForm(false);
     };
+
+    async function createPost(method, data) {
+        console.log('Creating post with data:', data);
+        const res = await fetch('/api/posts', {
+            method: method,
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data),
+        });
+        await res.json();
+        if (res.ok) {
+            console.log('Post created successfully');
+        } else {
+            alert('Failed to create post');
+        }
+    }
 
     return (
         <div className="content-header">

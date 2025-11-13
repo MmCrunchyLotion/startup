@@ -61,6 +61,20 @@ app.get('/api/user/me', async (req, res) => {
   }
 });
 
+app.post('/api/posts', async (req, res) => {
+  const token = req.cookies['token'];
+  const user = await getUser('token', token);
+  if (user) {
+    // Handle creating a post here
+    console.log('Creating post for user:', user.email);
+    const post = await createPost(user.email, req.body);
+    res.send(post);
+  } else {
+    res.status(401).send({ msg: 'Unauthorized' });
+  }
+});
+
+// In-memory "user database"
 const users = [];
 
 async function createUser(email, password) {
@@ -94,6 +108,31 @@ function clearAuthCookie(res, user) {
   delete user.token;
   res.clearCookie('token');
 }
+
+// In-memory "post database"
+const posts = [];
+
+async function createPost(userEmail, data) {
+    // Defensive check: ensure data is an object
+    if (!data || typeof data !== 'object') {
+        throw new Error('Invalid post data: expected an object');
+    }
+    
+    const post = {
+        id: uuid.v4(),
+        userEmail: userEmail,
+        type: data.type,
+        title: data.title,
+        content: data.content,
+        eventDate: data.eventDate,
+        location: data.location,
+        timestamp: new Date().toISOString(),
+    };
+    posts.push(post);
+    return post;
+}
+
+
 
 // Error middleware
 app.get('/error', (req, res, next) => {
