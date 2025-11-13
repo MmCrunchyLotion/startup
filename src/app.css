@@ -25,18 +25,6 @@ nav {
   border-radius: 0.5em;
 }
 
-login {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100%;
-}
-
-login .nav-item {
-  padding: 0.25em 0.5em;
-  margin-left: auto;
-}
-
 main {
   flex: 1 calc(100vh - 110px);
   display: flex;

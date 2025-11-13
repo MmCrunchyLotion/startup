@@ -5,7 +5,8 @@ export function CreatePostForm({ initialData = {}, onSubmit, onCancel }) {
         type: initialData.type || 'general', 
         title: initialData.title || '',
         content: initialData.content || '',
-        eventDate: initialData.eventDate || '',
+        eventDate: initialData.eventDate || '', // TODO: make this a date range
+        eventTime: initialData.eventTime || '',
         location: initialData.location || ''
     });
 
@@ -51,7 +52,6 @@ export function CreatePostForm({ initialData = {}, onSubmit, onCancel }) {
                 </div>
             )}
 
-
             <div className="form-group mb-3">
                 <label htmlFor="content">Content</label>
                 <textarea
@@ -81,7 +81,19 @@ export function CreatePostForm({ initialData = {}, onSubmit, onCancel }) {
                     </div>
 
                     <div className="form-group mb-3">
-                        <label htmlFor="location">Location (optional)</label>
+                        <label htmlFor="eventTime">Event Time (optional)</label>
+                        <input
+                            type="time"
+                            className="form-control"
+                            id="eventTime"
+                            name="eventTime"
+                            value={postData.eventTime}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group mb-3">
+                        <label htmlFor="location">Location</label>
                         <input
                             type="text"
                             className="form-control"
@@ -90,6 +102,7 @@ export function CreatePostForm({ initialData = {}, onSubmit, onCancel }) {
                             value={postData.location}
                             onChange={handleChange}
                             placeholder="Enter event location"
+                            required
                         />
                     </div>
                 </>

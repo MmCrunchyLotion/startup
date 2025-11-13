@@ -36,7 +36,7 @@ export function TeacherFinderHeader() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // TODO: Replace with search API call
+        // searchTeachers('GET', { zip, query });
         console.log('Search submitted:', { zip, query });
     };
 

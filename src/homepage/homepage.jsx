@@ -1,5 +1,6 @@
 import React from 'react';
 import { CreatePostForm } from '../components/CreatePostForm';
+import { DisplayPosts } from '../components/DisplayPosts';
 
 export function Homepage() {
     return (
@@ -7,6 +8,7 @@ export function Homepage() {
             <div className="outer-feed">
                 <h2>Your feed (websocket data)</h2>
                 <div className="inner-feed">
+                    <DisplayPosts />
                     <div className="post">
                         <div className="post-info">
                             <p className="username">Provo High Bulldogs</p>
@@ -42,11 +44,8 @@ export function Homepage() {
 
 export function HomepageHeader() {
     const [showForm, setShowForm] = React.useState(false);
-    // const [postType, setPostType] = React.useState('');
-    // const [postContent, setPostContent] = React.useState('');
 
     const handleSubmit = (data) => {
-        // TODO: replace with API call
         createPost('POST', data);
         console.log('Submitted from shared form:', data);
         setShowForm(false);

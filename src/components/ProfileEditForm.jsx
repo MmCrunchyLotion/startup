@@ -27,7 +27,7 @@ export function ProfileEditForm({ initialData = {}, onSubmit, onCancel }) {
                     name="username"
                     value={formData.username}
                     onChange={handleChange}
-                    placeholder="Enter a username"
+                    placeholder="Change your username"
                 />
             </div>
 
@@ -67,7 +67,7 @@ export function ProfileEditForm({ initialData = {}, onSubmit, onCancel }) {
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    placeholder="Enter a location"
+                    placeholder="Enter a zip code (This is private, and will help you find local events!)"
                 />
             </div>
 
