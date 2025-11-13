@@ -1,9 +1,12 @@
 import React from 'react';
 import { PersonSearchForm } from '../components/PersonSearchForm';
 import { ProfileEditForm } from '../components/ProfileEditForm';
+import { useNavigate } from 'react-router-dom';
 
 export function Profile() {
     const [showForm, setShowForm] = React.useState(false);
+    const [userInfo, setUserInfo] = React.useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = (data) => {
         // TODO: replace with API call
@@ -11,9 +14,31 @@ export function Profile() {
         setShowForm(false);
     };
 
+    React.useEffect(() => {
+        (async () => {
+            const res = await fetch('api/user/me');
+            const data = await res.json();
+            setUserInfo(data);
+        })();
+    }, []);
+
+    function handleLogout() {
+        fetch('api/auth', {
+            method: 'DELETE',
+        });
+        navigate('/');
+    }
+
     return (
         <main className="container-fluid text-center">
             {/* <!-- need to implement a way to view other people's profiles, rather than just your own --> */}
+            <div>
+                <h1>Profile</h1>
+                <div>Logged in as: {userInfo.email}</div>
+                <button type='button' onClick={handleLogout}>
+                    Logout
+                </button>
+            </div>
             <div className="outer-profile">
                 <h1>Your Profile</h1>
                 <div className="inner-profile">
