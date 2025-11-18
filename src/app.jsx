@@ -7,6 +7,7 @@ import { Events, EventsHeader } from './events/events';
 import { Profile, ProfileHeader } from './profile/profile';
 import { FindTeacher, TeacherFinderHeader } from './teacher-finder/teacher-finder';
 import { Login } from './login/login';
+import { ProfileSetup, SetupHeader } from './profile/profile-setup.jsx';
 
 export default function App() {
     const [isAuthed, setIsAuthed] = React.useState(false);
@@ -42,7 +43,7 @@ export default function App() {
                     <Route path="profile" element={<ProfileWrapper setIsAuthed={setIsAuthed} />} />
                     {/* <Route path="create-post" element={<CreatePost />} /> */}
                     <Route path='login' element={<Login setIsAuthed={setIsAuthed} />} />
-                    {/* <Route path="profile-setup" element={<ProfileSetup />} /> */}
+                    <Route path="profile-setup" element={<ProfileSetup />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
 
@@ -118,7 +119,7 @@ function ContentHeader() {
         '/events': { component: EventsHeader },
         '/teacher-finder': { component: TeacherFinderHeader },
         '/login': { component: ProfileHeader },
-        // '/profile-setup': { component: ProfileHeader }
+        '/profile-setup': { component: SetupHeader }
     };
 
     // Use optional chaining to safely access the component. Falls back to HomepageHeader if not found.
