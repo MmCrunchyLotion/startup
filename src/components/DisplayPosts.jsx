@@ -5,6 +5,9 @@ export function DisplayPosts() {
     const [posts, setPosts] = React.useState([]);
     const routeLocation = useLocation();
     const location = routeLocation.pathname;
+    const [userInfo, setUserInfo] = React.useState('');
+    
+    // const username = userInfo?.username;
 
     const handleGetPosts = async () => {
         try {
@@ -17,6 +20,9 @@ export function DisplayPosts() {
                 if (location === '/events') {
                     const eventPosts = data.filter(post => post.type === 'event');
                     setPosts(eventPosts);
+                } if (location === '/profile') {
+                    const userPosts = data.filter(post => post.username === userInfo?.username);
+                    setPosts(userPosts);
                 } else {
                     setPosts(data);
                 }

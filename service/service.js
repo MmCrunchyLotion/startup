@@ -28,6 +28,7 @@ app.post('/api/auth', async (req, res) => {
     } else {
         const user = await createUser(req.body.username, req.body.password);
         setAuthCookie(res, user);
+        setUsernameCookie(res, user);
         res.send({ username: user.username });
     }
 });
@@ -36,6 +37,7 @@ app.put('/api/auth', async (req, res) => {
     const user = await getUser('username', req.body.username);
     if (user && (await bcrypt.compare(req.body.password, user.password))) {
         setAuthCookie(res, user);
+        setUsernameCookie(res, user);
         res.send({ username: user.username });
     } else {
         res.status(401).send({ msg: 'Unauthorized' });
@@ -47,6 +49,7 @@ app.delete('/api/auth', async (req, res) => {
     const user = await getUser('token', token);
     if (user) {
         clearAuthCookie(res, user);
+        clearUsernameCookie(res, user);
     }
     res.send({});
 });
@@ -109,14 +112,21 @@ function setAuthCookie(res, user) {
     });
 }
 
-// function searchTeachers(method, data) {
-    
-//     console.log(`Searching teachers with method: ${method} and data:`, data);
-// }
-
 function clearAuthCookie(res, user) {
     delete user.token;
     res.clearCookie('token');
+}
+
+function setUsernameCookie(res, user) {
+    res.cookie('username', user.username, {
+        secure: true,
+        httpOnly: true,
+        sameSite: 'strict',
+    });
+}
+
+function clearUsernameCookie(res, user) {
+    res.clearCookie('username');
 }
 
 // In-memory "post database"

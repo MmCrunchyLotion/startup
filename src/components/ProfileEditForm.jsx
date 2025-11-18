@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { use } from 'react';
 
 export function ProfileEditForm({ initialData = {}, onSubmit, onCancel }) {
     const [formData, setFormData] = React.useState({
+        username: initialData.username || '',
         name: initialData.name || '',
-        location: initialData.location || ''
+        location: initialData.location || '',
+        bio: initialData.bio || '',
     });
 
     const handleChange = (e) => {
@@ -59,7 +61,7 @@ export function ProfileEditForm({ initialData = {}, onSubmit, onCancel }) {
             </div>
 
             <div className="form-group mb-3">
-                <label htmlFor="location">Location</label>
+                <label htmlFor="location">Location (This is private, and will help you find local events!)</label>
                 <input
                     type="text"
                     className="form-control"
@@ -67,7 +69,7 @@ export function ProfileEditForm({ initialData = {}, onSubmit, onCancel }) {
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    placeholder="Enter a zip code (This is private, and will help you find local events!)"
+                    placeholder="Enter a zip code"
                 />
             </div>
 

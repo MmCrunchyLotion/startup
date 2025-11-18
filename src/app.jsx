@@ -40,7 +40,7 @@ export default function App() {
                     <Route path="/" element={<Homepage />} exact />
                     <Route path="teacher-finder" element={<FindTeacher />} />
                     <Route path="events" element={<Events />} />
-                    <Route path="profile" element={<ProfileWrapper setIsAuthed={setIsAuthed} />} />
+                    <Route path="profile" element={<Profile />} />
                     {/* <Route path="create-post" element={<CreatePost />} /> */}
                     <Route path='login' element={<Login setIsAuthed={setIsAuthed} />} />
                     <Route path="profile-setup" element={<ProfileSetup />} />
@@ -125,42 +125,4 @@ function ContentHeader() {
     // Use optional chaining to safely access the component. Falls back to HomepageHeader if not found.
     const HeaderComponent = (headers[location.pathname]?.component) || HomepageHeader;
     return <HeaderComponent />;
-}
-
-function ProfileWrapper({ setIsAuthed }) {
-    const navigate = useNavigate();
-    const [showForm, setShowForm] = React.useState(false);
-    const [userInfo, setUserInfo] = React.useState('');
-
-    React.useEffect(() => {
-        (async () => {
-            const res = await fetch('/api/user/me', {
-                credentials: 'include',
-            });
-            const data = await res.json();
-            setUserInfo(data);
-        })();
-    }, []);
-
-    function handleLogout() {
-        (async () => {
-            try {
-                const res = await fetch('/api/auth', {
-                    method: 'DELETE',
-                    credentials: 'include',
-                });
-                if (res.ok) {
-                    console.log('Logged out successfully');
-                    setIsAuthed(false);
-                    navigate('/');
-                } else {
-                    alert('Logout failed');
-                }
-            } catch (err) {
-                console.error('Logout error:', err);
-            }
-        })();
-    }
-
-    return <Profile userInfo={userInfo} onLogout={handleLogout} />;
 }
