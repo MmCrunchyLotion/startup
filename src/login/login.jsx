@@ -27,7 +27,11 @@ export function Login({ setIsAuthed }) {
         if (res.ok) {
             console.log("Logged in");
             setIsAuthed(true);
-            navigate('/profile');
+            if (method === 'POST') {
+                navigate('/profile-setup');
+            } else {
+                navigate('/profile');
+            }
         } else {
             alert('Authentication failed');
         }

@@ -8,7 +8,6 @@ export function Profile({ userInfo, onLogout }) {
 
     const handleSubmit = (data) => {
         // TODO: replace with API call
-        
         console.log('Submitted from shared form:', data);
         setShowForm(false);
     };
@@ -16,13 +15,6 @@ export function Profile({ userInfo, onLogout }) {
     return (
         <main className="container-fluid text-center">
             {/* <!-- need to implement a way to view other people's profiles, rather than just your own --> */}
-            <div>
-                <h1>Profile</h1>
-                <div>Logged in as: {userInfo?.username || 'Loading...'}</div>
-                <button type='button' onClick={onLogout}>
-                    Logout
-                </button>
-            </div>
             <div className="outer-profile">
                 <h1>Your Profile</h1>
                 <div className="inner-profile">

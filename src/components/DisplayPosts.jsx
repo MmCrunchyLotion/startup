@@ -1,8 +1,10 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export function DisplayPosts() {
     const [posts, setPosts] = React.useState([]);
+    const routeLocation = useLocation();
+    const location = routeLocation.pathname;
 
     const handleGetPosts = async () => {
         try {
@@ -12,7 +14,12 @@ export function DisplayPosts() {
             });
             if (res.ok) {
                 const data = await res.json();
-                setPosts(data);
+                if (location === '/events') {
+                    const eventPosts = data.filter(post => post.type === 'event');
+                    setPosts(eventPosts);
+                } else {
+                    setPosts(data);
+                }
             }
         } catch (err) {
             console.error('Failed to fetch posts:', err);

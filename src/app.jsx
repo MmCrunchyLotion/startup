@@ -42,6 +42,7 @@ export default function App() {
                     <Route path="profile" element={<ProfileWrapper setIsAuthed={setIsAuthed} />} />
                     {/* <Route path="create-post" element={<CreatePost />} /> */}
                     <Route path='login' element={<Login setIsAuthed={setIsAuthed} />} />
+                    {/* <Route path="profile-setup" element={<ProfileSetup />} /> */}
                     <Route path="*" element={<NotFound />} />
                 </Routes>
 
@@ -116,7 +117,8 @@ function ContentHeader() {
         '/profile': { component: ProfileHeader },
         '/events': { component: EventsHeader },
         '/teacher-finder': { component: TeacherFinderHeader },
-        '/login': { component: ProfileHeader }
+        '/login': { component: ProfileHeader },
+        // '/profile-setup': { component: ProfileHeader }
     };
 
     // Use optional chaining to safely access the component. Falls back to HomepageHeader if not found.

@@ -9,6 +9,7 @@ export function Homepage() {
                 <h2>Your feed (websocket data)</h2>
                 <div className="inner-feed">
                     <DisplayPosts />
+                    {/* Filler posts */}
                     <div className="post">
                         <div className="post-info">
                             <p className="username">Provo High Bulldogs</p>
