@@ -11,7 +11,8 @@ export function DisplayPosts() {
 
     const handleGetPosts = async () => {
         try {
-            const res = await fetch('/api/posts', {
+// This gets all posts, good for testing, but with too many posts server will overload
+            const res = await fetch('/api/posts', { 
                 method: 'GET',
                 credentials: 'include',
             });

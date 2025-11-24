@@ -2,12 +2,12 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 import { BrowserRouter, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { Homepage, HomepageHeader } from './homepage/homepage';
-import { Events, EventsHeader } from './events/events';
-import { Profile, ProfileHeader } from './profile/profile';
-import { FindTeacher, TeacherFinderHeader } from './teacher-finder/teacher-finder';
-import { Login } from './login/login';
+import { Homepage, HomepageHeader } from './homepage/homepage.jsx';
+import { Events, EventsHeader } from './events/events.jsx';
+import { Profile, ProfileHeader } from './profile/profile.jsx';
 import { ProfileSetup, SetupHeader } from './profile/profile-setup.jsx';
+import { FindTeacher, TeacherFinderHeader } from './teacher-finder/teacher-finder.jsx';
+import { Login } from './login/login.jsx';
 
 export default function App() {
     const [isAuthed, setIsAuthed] = React.useState(false);
@@ -125,4 +125,23 @@ function ContentHeader() {
     // Use optional chaining to safely access the component. Falls back to HomepageHeader if not found.
     const HeaderComponent = (headers[location.pathname]?.component) || HomepageHeader;
     return <HeaderComponent />;
+}
+
+export function getCookie(cookieName) {
+
+    const name = cookieName + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+
+    return "";
 }

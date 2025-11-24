@@ -1,12 +1,26 @@
-import React, { use } from 'react';
+import React from 'react';
 
 export function ProfileEditForm({ initialData = {}, onSubmit, onCancel }) {
     const [formData, setFormData] = React.useState({
-        username: initialData.username || '',
+        accountType: initialData.accountType || 'User',
+            username: initialData.username || '',
+        email: initialData.email || '',
         name: initialData.name || '',
-        location: initialData.location || '',
         bio: initialData.bio || '',
+        location: initialData.location || '',
     });
+
+    React.useEffect(() => {
+        setFormData({
+            accountType: initialData.accountType || 'User',
+            username: initialData.username || '',
+            email: initialData.email || '',
+            name: initialData.name || '',
+            bio: initialData.bio || '',
+            location: initialData.location || '',
+        });
+    }, [initialData]);
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,15 +35,28 @@ export function ProfileEditForm({ initialData = {}, onSubmit, onCancel }) {
     return (
         <form onSubmit={handleSubmit} className="post-form" style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'left' }}>
             <div className="form-group mb-3">
-                <label htmlFor='username'>Username</label>
+                <label htmlFor="username">Username</label>
                 <input
                     type="text"
                     className="form-control"
                     id="username"
                     name="username"
                     value={formData.username}
+                    disabled
+                />
+            </div>
+
+            <div className="form-group mb-3">
+                <label htmlFor="email">Email</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    id="email"
+                    name="email"
+                    value={formData.email}
                     onChange={handleChange}
-                    placeholder="Change your username"
+                    placeholder="Enter an email"
+                    required
                 />
             </div>
 
@@ -70,6 +97,7 @@ export function ProfileEditForm({ initialData = {}, onSubmit, onCancel }) {
                     value={formData.location}
                     onChange={handleChange}
                     placeholder="Enter a zip code"
+                    required
                 />
             </div>
 

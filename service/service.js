@@ -9,11 +9,13 @@ app.use(cookieParser());
 
 // Logging middleware requests
 app.use((req, res, next) => {
+    console.log('\n--- New Request ---');
     console.log(req.method);
     console.log(req.originalUrl);
     console.log(req.body);
     console.log(req.cookies);
     console.log(users);
+    console.log(posts);
     next();
 });
 
@@ -22,6 +24,8 @@ app.use(express.static('public'));
 
 // Routing middleware
 
+
+// Register account
 app.post('/api/auth', async (req, res) => {
     if (await getUser('username', req.body.username)) {
         res.status(409).send({ msg: 'Existing user' });
@@ -33,6 +37,8 @@ app.post('/api/auth', async (req, res) => {
     }
 });
 
+
+// Login account
 app.put('/api/auth', async (req, res) => {
     const user = await getUser('username', req.body.username);
     if (user && (await bcrypt.compare(req.body.password, user.password))) {
@@ -44,6 +50,7 @@ app.put('/api/auth', async (req, res) => {
     }
 });
 
+// Logout account
 app.delete('/api/auth', async (req, res) => {
     const token = req.cookies['token'];
     const user = await getUser('token', token);
@@ -54,6 +61,7 @@ app.delete('/api/auth', async (req, res) => {
     res.send({});
 });
 
+// Get current user's and username
 app.get('/api/user/me', async (req, res) => {
     const token = req.cookies['token'];
     const user = await getUser('token', token);
@@ -64,6 +72,49 @@ app.get('/api/user/me', async (req, res) => {
     }
 });
 
+// Check username availability
+app.get('/api/user/:username', async (req, res) => {
+    if (await getUser('username', req.params.username)) {
+        res.status(409).send({ msg: 'Existing user' });
+    } else {
+        res.send({ msg: 'Username available' });
+    }
+});
+
+
+// Get user profile
+app.get('/api/user', async (req, res) => {
+    const token = req.cookies['token'];
+    const user = await getUser('token', token);
+    if (user) {
+        console.log('Fetching profile for user:', user.username);
+        res.send({
+            accountType: user.accountType, 
+            username: user.username, 
+            email: user.email, 
+            name: user.name, 
+            bio: user.bio, 
+            location: user.location
+        });
+    } else {
+        res.status(401).send({ msg: 'Unauthorized' });
+    }
+});
+
+// Edit user profile
+app.put('/api/user', async (req, res) => {
+    const token = req.cookies['token'];
+    const user = await getUser('token', token);
+
+    if (user) {
+        const updatedUser = await updateUser(user.username, req.body);
+        res.send(updatedUser);
+    } else {
+        res.status(401).send({ msg: 'Unauthorized' });
+    }
+});
+
+// Create a new post
 app.post('/api/posts', async (req, res) => {
     const token = req.cookies['token'];
     const user = await getUser('token', token);
@@ -77,6 +128,7 @@ app.post('/api/posts', async (req, res) => {
     }
 });
 
+// Get all posts
 app.get('/api/posts', async (req, res) => {
     const posts = await getPosts();
     res.send(posts);
@@ -88,8 +140,13 @@ const users = [];
 async function createUser(username, password) {
     const passwordHash = await bcrypt.hash(password, 10);
     const user = {
+        accountType: 'User',
         username: username,
         password: passwordHash,
+        email: null,
+        name: null,
+        bio: null,
+        location: null,
     };
     users.push(user);
     return user;
@@ -102,13 +159,23 @@ function getUser(field, value) {
     return null;
 }
 
+async function updateUser(username, data) {
+    const user = getUser('username', username);
+    if (user) {
+        Object.assign(user, data);
+        return user;
+    }
+    return null;
+}
+
 function setAuthCookie(res, user) {
     user.token = uuid.v4();
 
     res.cookie('token', user.token, {
         secure: true,
         httpOnly: true,
-        sameSite: 'strict',
+        // sameSite: 'strict',
+        sameSite: 'none',
     });
 }
 
@@ -120,8 +187,10 @@ function clearAuthCookie(res, user) {
 function setUsernameCookie(res, user) {
     res.cookie('username', user.username, {
         secure: true,
-        httpOnly: true,
-        sameSite: 'strict',
+        // httpOnly: true,
+        httpOnly: false,
+        // sameSite: 'strict',
+        sameSite: 'none',
     });
 }
 

@@ -1,28 +1,23 @@
 import React from 'react';
 import { PersonSearchForm } from '../components/PersonSearchForm';
-import { ProfileEditForm } from '../components/ProfileEditForm';
-import { DisplayPosts } from '../components/DisplayPosts';
 import { useNavigate } from 'react-router-dom';
 
+import { DisplayPosts } from '../components/DisplayPosts';
+
 export function Profile() {
-    const [showForm, setShowForm] = React.useState(false);
+
+    const navigate = useNavigate();
     const [userInfo, setUserInfo] = React.useState('');
     
     React.useEffect(() => {
         (async () => {
-            const res = await fetch('/api/user/me', {
+            const res = await fetch('/api/user', {
                 credentials: 'include',
             });
             const data = await res.json();
             setUserInfo(data);
         })();
     }, []);
-
-    const handleSubmit = (data) => {
-        // TODO: replace with API call
-        console.log('Submitted from shared form:', data);
-        setShowForm(false);
-    };
 
     return (
         <main className="container-fluid text-center">
@@ -33,23 +28,21 @@ export function Profile() {
                     <div className="your-card">
                         <img src="https://pbs.twimg.com/profile_images/1011280580015804420/yQ21pTwo_400x400.jpg" className="img-thumbnail" alt="User Photo" />
                         <div className="profile-info">
-                            <p className="username">Username: Jazzman123</p>
-                            <p className="bio">Bio: Passionate about music and looking to connect with fellow musicians!</p>
-                            <p className="account-type">Account Type: User</p>
-                            <p className="location">Location: Provo, UT</p>
+                            <p className="account-type">Account Type: {userInfo?.accountType}</p>
+                            <p className="username">Username: {userInfo?.username}</p>
+                            <p className="email">Email: {userInfo?.email}</p>
+                            <p className="name">Name: {userInfo?.name}</p>
+                            <p className="bio">Bio: {userInfo?.bio}</p>
+                            <p className="location">Location: {userInfo?.location}</p>
                         </div>
-                        {!showForm ? (
-                            <button
-                                className="btn btn-primary text-dark"
-                                type="button"
-                                style={{ backgroundColor: '#ff6347' }}
-                                onClick={() => setShowForm(true)}
-                            >
-                                Edit Profile
-                            </button>
-                        ) : (
-                            <ProfileEditForm onSubmit={handleSubmit} onCancel={() => setShowForm(false)} />
-                        )}
+                        <button
+                            className="btn btn-primary text-dark"
+                            type="button"
+                            style={{ backgroundColor: '#ff6347' }}
+                            onClick={() => navigate('/profile-setup')}
+                        >
+                            Edit Profile
+                        </button>
                     </div>
                 </div>
             </div>
