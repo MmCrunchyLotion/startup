@@ -3,11 +3,19 @@ import { useLocation } from 'react-router-dom';
 
 export function DisplayPosts() {
     const [posts, setPosts] = React.useState([]);
+    const [userInfo, setUserInfo] = React.useState('');
     const routeLocation = useLocation();
     const location = routeLocation.pathname;
-    const [userInfo, setUserInfo] = React.useState('');
     
     // const username = userInfo?.username;
+    
+    React.useEffect(() => {
+        // handleGetPosts();
+        fetch('api/posts/')
+            .then(res => res.json())
+            .then(data => setPosts(data))
+            .catch(err => console.error('Error fetching posts:', err));
+    }, []);
 
     const handleGetPosts = async () => {
         try {
@@ -32,10 +40,6 @@ export function DisplayPosts() {
             console.error('Failed to fetch posts:', err);
         }
     };
-
-    React.useEffect(() => {
-        handleGetPosts();
-    }, []);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);

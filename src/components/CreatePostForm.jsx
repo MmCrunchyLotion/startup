@@ -20,6 +20,31 @@ export function CreatePostForm({ initialData = {}, onSubmit, onCancel }) {
         if (onSubmit) onSubmit(postData);
     };
 
+    const locationInputRef = React.useRef(null);
+
+    React.useEffect(() => {
+        if (!window.google) return;
+
+        const autocomplete = new window.google.maps.places.Autocomplete(
+            locationInputRef.current,
+            {
+                types: ["geocode"],
+                fields: ["formatted_address", "geometry"],
+            }
+        );
+
+        autocomplete.addListener("place_changed", () => {
+            const place = autocomplete.getPlace();
+            setPostData(prev => ({ 
+                ...prev, 
+                location: place.formatted_address,
+                latitude: place.geometry?.location.lat(),
+                longitude: place.geometry?.location.lng()
+            }));
+        });
+    }, [window.google]);
+
+
     return (
         <form onSubmit={handleSubmit} className="post-form" style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'left' }}>
             <div className="form-group mb-3">
@@ -99,8 +124,9 @@ export function CreatePostForm({ initialData = {}, onSubmit, onCancel }) {
                             className="form-control"
                             id="location"
                             name="location"
-                            value={postData.location}
-                            onChange={handleChange}
+                            ref={locationInputRef}
+                            // value={postData.location}
+                            // onChange={handleChange}
                             placeholder="Enter event location"
                             required
                         />
