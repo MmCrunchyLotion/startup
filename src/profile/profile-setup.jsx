@@ -38,7 +38,6 @@ export function ProfileSetup() {
         const res = await fetch(`/api/user/${data.username}`, {
             method: 'GET',
             credentials: 'include',
-
         });
         await res.json();
         if (res.ok) {

@@ -33,7 +33,7 @@ export function Profile() {
                             <p className="email">Email: {userInfo?.email}</p>
                             <p className="name">Name: {userInfo?.name}</p>
                             <p className="bio">Bio: {userInfo?.bio}</p>
-                            <p className="location">Location: {userInfo?.location}</p>
+                            <p className="zipcode">Zip Code: {userInfo?.zipcode}</p>
                         </div>
                         <button
                             className="btn btn-primary text-dark"

@@ -1,26 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export function ProfileEditForm({ initialData = {}, onSubmit, onCancel }) {
-    const [formData, setFormData] = React.useState({
+    const [formData, setFormData] = useState({
         accountType: initialData.accountType || 'User',
-            username: initialData.username || '',
+        username: initialData.username || '',
         email: initialData.email || '',
         name: initialData.name || '',
         bio: initialData.bio || '',
-        location: initialData.location || '',
+        zipcode: initialData.zipcode || '',
     });
 
-    React.useEffect(() => {
+    useEffect(() => {
         setFormData({
             accountType: initialData.accountType || 'User',
             username: initialData.username || '',
             email: initialData.email || '',
             name: initialData.name || '',
             bio: initialData.bio || '',
-            location: initialData.location || '',
+            zipcode: initialData.zipcode || '',
         });
     }, [initialData]);
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;

@@ -3,11 +3,26 @@ import { CreatePostForm } from '../components/CreatePostForm';
 import { DisplayPosts } from '../components/DisplayPosts';
 
 export function Events() {
+
+    async function fetchNearbyEvents(radius) {
+        const res = await fetch(`/api/posts/nearby?radius=${radius}`, {
+            credentials: 'include',
+        });
+        const data = await res.json();
+        setPosts(data);
+    }
+
     return (
         <main className="container-fluid text-center">
             <div className="outer-feed">
                 <h2>Upcoming Events</h2>
                 <div className="inner-feed">
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => fetchNearbyEvents(25)}
+                    >
+                        Events Near Me
+                    </button>
                     <DisplayPosts />
                     {/* Filler posts */}
                     <div className="post">
