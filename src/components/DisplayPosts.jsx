@@ -85,7 +85,7 @@ export function DisplayPosts() {
     const renderPost = (post) => {
         if (post.type === 'event') {
             return (
-                <div key={post.id} className="post">
+                <div key={post.id || post._id} className="post">
                     <div className="post-info">
                         <p className="username">{post.username}</p>
                         <p className="timestamp">{formatRelativeTime(post.timestamp)}</p>
@@ -99,7 +99,7 @@ export function DisplayPosts() {
             );
         } else {
             return (
-                <div key={post.id} className="post">
+                <div key={post.id || post._id} className="post">
                     <div className="post-info">
                         <p className="username">{post.username}</p>
                         <p className="timestamp">{formatRelativeTime(post.timestamp)}</p>

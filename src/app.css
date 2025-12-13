@@ -18,10 +18,8 @@ header .content-header {
   border-radius: 0.5em;
 }
 
-nav {
-  background-color: #ffffff;
-  padding-top: 1em;
-  padding-bottom: 1em;
+nav.navbar {
+  margin-top: 1em;
   border-radius: 0.5em;
 }
 

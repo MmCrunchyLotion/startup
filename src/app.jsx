@@ -43,7 +43,7 @@ export default function App() {
 
     return (
         <BrowserRouter>
-            <div style={{ backgroundColor: '#ff6347' }}>
+            <div style={{ backgroundColor: '#ff6347', paddingTop:'1em' }}>
                 <header className="container-fluid">
                     <NavbarContent isAuthed={authState} setIsAuthed={setAuthState} />
                     <HeaderContent />
@@ -98,46 +98,44 @@ function NavbarContent({ isAuthed, setIsAuthed }) {
     };
 
     return (    
-        <nav className="navbar navbar-expand-lg bg-body-tertiary"> {/* TODO: Change jsx in this spot to the navbar appear regardless of window size */}
+        <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
-                <div className="navbar-brand" href="#"> {/* TODO: Link to homepage, Figure out why I left href # there */}
-                    Match your Music
-                </div>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <div className="navbar-brand">Match your Music</div>
+                <button 
+                    className="navbar-toggler" 
+                    type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" 
+                    aria-expanded="false" 
+                    aria-label="Toggle navigation"
+                >
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <menu className="collapse navbar-collapse" id="navbarNav"> {/* TODO: Does this actually collapse? */}
+                <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item"><NavLink className="nav-link text-dark" to="">Home</NavLink></li>
                         <li className="nav-item"><NavLink className="nav-link text-dark" to="teacher-finder">Find a teacher</NavLink></li>
                         <li className="nav-item"><NavLink className="nav-link text-dark" to="events">Events</NavLink></li>
-                        {/* TODO: Add a people tab? */}
                         {isAuthed === AuthState.Authenticated && (
-                            <>
-                                <li className="nav-item"><NavLink className="nav-link text-dark" to="profile">Your Profile</NavLink></li>
-                                <li className="nav-item">
-                                    <button onClick={handleLogoutClick} style={{background: 'none', border: 'none', cursor: 'pointer', color: '#000', textDecoration: 'none'}}>
-                                        Logout
-                                    </button>
-                                </li>
-                            </>
+                            <li className="nav-item"><NavLink className="nav-link text-dark" to="profile">Your Profile</NavLink></li>
+                        )}
+                        {/* TODO: Add a people tab? */}
+                    </ul>
+                    <div className="ms-auto">
+                        {isAuthed === AuthState.Authenticated && (
+                            <button onClick={handleLogoutClick} style={{backgroundColor: '#ff6347', border: 'none', cursor: 'pointer', color: '#000', textDecoration: 'none', padding: '0.5rem 1rem', display: 'block'}}>
+                                Logout
+                            </button>
                         )}
                         {isAuthed === AuthState.NotAuthenticated && (
-                            <li className="nav-item"><NavLink className="nav-link text-dark" to="login">Login</NavLink></li>
+                            <button onClick={() => navigate('/login')} style={{backgroundColor: '#ff6347', border: 'none', cursor: 'pointer', color: '#000', textDecoration: 'none', padding: '0.5rem 1rem', display: 'block'}}>
+                                Login
+                            </button>
                         )}
-                    </ul>
-                </menu>
+                    </div>
+                </div>
             </div>
-            {/* <div className='container-fluid'> 
-                {isAuthed ? (
-                    <>
-                        <span className="nav-item"><NavLink className="nav-link text-dark" to="profile">Your Profile</NavLink></span>
-                        <span className="nav-item"><button onClick={handleLogoutClick} style={{background: 'none', border: 'none', cursor: 'pointer', color: '#000', textDecoration: 'none'}}>Logout</button></span>
-                    </>
-                ) : (
-                    <span className="nav-item"><NavLink className="nav-link text-dark" to="login">Login</NavLink></span>
-                )}
-            </div> */}
         </nav>
     );
 }
