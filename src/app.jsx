@@ -124,12 +124,12 @@ function NavbarContent({ isAuthed, setIsAuthed }) {
                     </ul>
                     <div className="ms-auto">
                         {isAuthed === AuthState.Authenticated && (
-                            <button onClick={handleLogoutClick} style={{backgroundColor: '#ff6347', border: 'none', cursor: 'pointer', color: '#000', textDecoration: 'none', padding: '0.5rem 1rem', display: 'block'}}>
+                            <button id="login-logout-button" onClick={handleLogoutClick} style={{backgroundColor: '#ff6347', border: 'none', cursor: 'pointer', color: '#000', textDecoration: 'none', padding: '0.5rem 1rem', display: 'block'}}>
                                 Logout
                             </button>
                         )}
                         {isAuthed === AuthState.NotAuthenticated && (
-                            <button onClick={() => navigate('/login')} style={{backgroundColor: '#ff6347', border: 'none', cursor: 'pointer', color: '#000', textDecoration: 'none', padding: '0.5rem 1rem', display: 'block'}}>
+                            <button id="login-logout-button" onClick={() => navigate('/login')} style={{backgroundColor: '#ff6347', border: 'none', cursor: 'pointer', color: '#000', textDecoration: 'none', padding: '0.5rem 1rem', display: 'block'}}>
                                 Login
                             </button>
                         )}
