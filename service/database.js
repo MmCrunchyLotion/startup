@@ -22,26 +22,37 @@ function getUser(email) {
     return userCollection.findOne({ email: email });
 }
 
+function getUserByEmail(email) {
+    return userCollection.findOne({ email: email });
+}
+
 function getUserByUsername(username) {
     return userCollection.findOne({ username: username });
 }
 
 function getUserByToken(token) {
-    return userCollection.findOne({ token: token });
+    return userCollection.findOne({ tokens: token });
 }
 
 async function addUser(user) {
     await userCollection.insertOne(user);
 }
 
-async function updateUser(user) {
-    // Prefer updating by username if available, otherwise fall back to email
-    if (user.username) {
-        await userCollection.updateOne({ username: user.username }, { $set: user });
-    } else if (user.email) {
-        await userCollection.updateOne({ email: user.email }, { $set: user });
+  async function updateUser(updateData) {
+    // Use email as the primary lookup field since it's immutable
+    if (updateData.email) {
+        // Use $set to update only the provided fields
+        const setData = {};
+        Object.keys(updateData).forEach(key => {
+            if (key !== 'email' && key !== '_id') {
+                setData[key] = updateData[key];
+            }
+        });
+        
+        await userCollection.updateOne({ email: updateData.email }, { $set: setData });
+        return await userCollection.findOne({ email: updateData.email });
     } else {
-        throw new Error('updateUser requires username or email');
+        throw new Error('updateUser requires email');
     }
 }
 
@@ -56,6 +67,7 @@ async function getPosts() {
 
 module.exports = {
     getUser,
+    getUserByEmail,
     getUserByUsername,
     getUserByToken,
     addUser,

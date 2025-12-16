@@ -5,7 +5,7 @@ import './login.css';
 export function Login({ setIsAuthed }) {
 
     const navigate = useNavigate();
-    const [username, setUsername] = React.useState('');
+    const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
     function handleLogin() {
@@ -21,11 +21,11 @@ export function Login({ setIsAuthed }) {
             method: method,
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ email, password }),
         });
-        await res.json();
+        const data = await res.json();
         if (res.ok) {
-            console.log("Logged in");
+            console.log("Authenticated");
             setIsAuthed(true);
             if (method === 'POST') {
                 navigate('/profile-setup');
@@ -33,7 +33,7 @@ export function Login({ setIsAuthed }) {
                 navigate('/profile');
             }
         } else {
-            alert('Authentication failed');
+            alert(data.msg || 'Authentication failed');
         }
     }
 
@@ -41,18 +41,18 @@ export function Login({ setIsAuthed }) {
         <main className='container-fluid text-center'>
             <h1>Login</h1>
             <div className='username-container'>
-                <label>Username:</label>
-                <input type='text' onChange={(e) => setUsername(e.target.value)} required />
+                <label>Email:</label>
+                <input type='email' onChange={(e) => setEmail(e.target.value)} required />
             </div>
             <div className='password-container'>
                 <label>Password:</label>
                 <input type='password' onChange={(e) => setPassword(e.target.value)} required />
             </div>
 
-            <button type='submit' disabled={!(username && password)} onClick={handleLogin}>
+            <button type='submit' disabled={!(email && password)} onClick={handleLogin}>
                 Login
             </button>
-            <button type='button' disabled={!(username && password)} onClick={handleRegister}>
+            <button type='button' disabled={!(email && password)} onClick={handleRegister}>
                 Register
             </button>
         </main>
