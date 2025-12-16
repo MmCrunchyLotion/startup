@@ -11,15 +11,10 @@ import { Profile, ProfileHeader } from './profile/profile.jsx';
 import { ProfileSetup, SetupHeader } from './profile/profile-setup.jsx';
 import { useLoadGoogleMaps } from './components/loadGoogleMaps.jsx';
 
-// Simple auth state enum
-const AuthState = { Authenticated: true, NotAuthenticated: false };
-
 export default function App() {
 
     const mapsLoaded = useLoadGoogleMaps(apiKeys.googleMapsApiKey);
-    const [userName, setUserName] = React.useState(localStorage.getItem('username') || '');
-    const currentAuthState = userName ? AuthState.Authenticated : AuthState.NotAuthenticated;
-    const [authState, setAuthState] = React.useState(currentAuthState);
+    const [authState, setAuthState] = React.useState(false);
 
     // if (!mapsLoaded) {
     //     return <div>Loading Google Maps...</div>;

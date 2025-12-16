@@ -3,19 +3,44 @@ import { useLocation } from 'react-router-dom';
 
 export function DisplayPosts() {
     const [posts, setPosts] = React.useState([]);
-    const [userInfo, setUserInfo] = React.useState('');
+    const [userInfo, setUserInfo] = React.useState(null);
     const routeLocation = useLocation();
     const location = routeLocation.pathname;
     
-    // const username = userInfo?.username;
+    // Fetch user info if on profile page
+    React.useEffect(() => {
+        if (location === '/profile') {
+            fetch('/api/user', {
+                credentials: 'include',
+            })
+                .then(res => res.json())
+                .then(data => setUserInfo(data))
+                .catch(err => console.error('Error fetching user info:', err));
+        }
+    }, [location]);
     
     React.useEffect(() => {
         // handleGetPosts();
         fetch('api/posts/')
             .then(res => res.json())
-            .then(data => setPosts(data))
+            .then(data => {
+                // Filter posts based on current location
+                if (location === '/events') {
+                    setPosts(data.filter(post => post.type === 'event'));
+                } else if (location === '/profile') {
+                    // Only filter by username if we have the user info
+                    if (userInfo && userInfo.username) {
+                        setPosts(data.filter(post => post.username === userInfo.username));
+                    } else {
+                        // If no username, show no posts
+                        setPosts([]);
+                    }
+                } else {
+                    setPosts(data);
+                }
+            })
             .catch(err => console.error('Error fetching posts:', err));
-    }, []);
+    }, [location, userInfo]);
 
     const handleGetPosts = async () => {
         try {
@@ -29,7 +54,7 @@ export function DisplayPosts() {
                 if (location === '/events') {
                     const eventPosts = data.filter(post => post.type === 'event');
                     setPosts(eventPosts);
-                } if (location === '/profile') {
+                } else if (location === '/profile') {
                     const userPosts = data.filter(post => post.username === userInfo?.username);
                     setPosts(userPosts);
                 } else {
@@ -85,7 +110,7 @@ export function DisplayPosts() {
     const renderPost = (post) => {
         if (post.type === 'event') {
             return (
-                <div key={post.id || post._id} className="post">
+                <div key={post._id} className="post">
                     <div className="post-info">
                         <p className="username">{post.username}</p>
                         <p className="timestamp">{formatRelativeTime(post.timestamp)}</p>
@@ -99,7 +124,7 @@ export function DisplayPosts() {
             );
         } else {
             return (
-                <div key={post.id || post._id} className="post">
+                <div key={post._id} className="post">
                     <div className="post-info">
                         <p className="username">{post.username}</p>
                         <p className="timestamp">{formatRelativeTime(post.timestamp)}</p>
