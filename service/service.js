@@ -40,58 +40,63 @@ app.use(`/api`, apiRouter);
 
 // (Register) CreateAuth for new user
 apiRouter.post('/auth/create', async (req, res) => {
-    if (await findUser('username', req.body.username)) {
-        res.status(409).send({ msg: 'Existing user' });
+    if (await findUser('email', req.body.email)) {
+        res.status(409).send({ msg: 'Email already registered' });
     } else {
-        const user = await createUser(req.body.username, req.body.password);
+        const user = await createUser(req.body.email, req.body.password);
         setAuthCookie(res, user);
-        // setUsernameCookie(res, user); // Maybe not needed
-        res.send({ username: user.username });
+        res.send({ email: user.email });
     }
 });
 
 // Also accept POST /auth for compatibility with frontend requests
 apiRouter.post('/auth', async (req, res) => {
-    if (await findUser('username', req.body.username)) {
-        return res.status(409).send({ msg: 'Existing user' });
+    if (await findUser('email', req.body.email)) {
+        return res.status(409).send({ msg: 'Email already registered' });
     }
-    const user = await createUser(req.body.username, req.body.password);
+    const user = await createUser(req.body.email, req.body.password);
     setAuthCookie(res, user);
-    return res.send({ username: user.username });
+    return res.send({ email: user.email });
 });
 
 // (Login) getAuth for provided user
 apiRouter.put('/auth/login', async (req, res) => {
-    const user = await findUser('username', req.body.username);
+    const user = await findUser('email', req.body.email);
     if (user && (await bcrypt.compare(req.body.password, user.password))) {
-        user.token = uuid.v4();
+        const newToken = uuid.v4();
+        if (!user.tokens) user.tokens = [];
+        user.tokens.push(newToken);
         await DB.updateUser(user);
-        setAuthCookie(res, user);
-        // setUsernameCookie(res, user); // Maybe not needed
-        return res.send({ username: user.username });
+        setAuthCookie(res, { ...user, token: newToken });
+        return res.send({ email: user.email });
     }
     return res.status(401).send({ msg: 'Unauthorized' });
 });
 
 // Accept PUT /auth as login for compatibility with frontend
 apiRouter.put('/auth', async (req, res) => {
-    const user = await findUser('username', req.body.username);
+    const user = await findUser('email', req.body.email);
     if (user && (await bcrypt.compare(req.body.password, user.password))) {
-        user.token = uuid.v4();
+        const newToken = uuid.v4();
+        if (!user.tokens) user.tokens = [];
+        user.tokens.push(newToken);
         await DB.updateUser(user);
-        setAuthCookie(res, user);
-        return res.send({ username: user.username });
+        setAuthCookie(res, { ...user, token: newToken });
+        return res.send({ email: user.email });
     }
     return res.status(401).send({ msg: 'Unauthorized' });
 });
 
 // (Logout) deleteAuth token if stored in cookie
 apiRouter.delete('/auth', async (req, res) => {
-    const user = await findUser('token', req.cookies[authCookieName]);
+    const token = req.cookies[authCookieName];
+    const user = await findUser('token', token);
     if (user) {
-        delete user.token;
-         await DB.updateUser(user);
-        // clearUsernameCookie(res, user); // Maybe not needed
+        if (user.tokens && Array.isArray(user.tokens)) {
+            // Remove only the current token from the array
+            user.tokens = user.tokens.filter(t => t !== token);
+        }
+        await DB.updateUser(user);
     }
     res.clearCookie(authCookieName);
     res.status(204).end();
@@ -119,13 +124,13 @@ apiRouter.get('/user/me', async (req, res) => {
     }
 });
 
-// Check username availability
+// Check email availability
 // TODO: update to match external DB structure
-apiRouter.get('/user/:username', async (req, res) => {
-    if (await findUser('username', req.params.username)) {
-        res.status(409).send({ msg: 'Existing user' });
+apiRouter.get('/user/:email', async (req, res) => {
+    if (await findUser('email', req.params.email)) {
+        res.status(409).send({ msg: 'Email already registered' });
     } else {
-        res.send({ msg: 'Username available' });
+        res.send({ msg: 'Email available' });
     }
 });
 
@@ -157,7 +162,21 @@ apiRouter.put('/user', async (req, res) => {
     const user = await findUser('token', token);
 
     if (user) {
-        const updatedUser = await updateUser(user.username, req.body);
+        // If trying to change username, check if new username already exists
+        if (req.body.username && req.body.username !== user.username) {
+            if (await findUser('username', req.body.username)) {
+                return res.status(409).send({ msg: 'Username already taken' });
+            }
+        }
+        // Build update object with only editable fields
+        const updateFields = {};
+        if (req.body.username !== undefined) updateFields.username = req.body.username;
+        if (req.body.name !== undefined) updateFields.name = req.body.name;
+        if (req.body.bio !== undefined) updateFields.bio = req.body.bio;
+        if (req.body.zipcode !== undefined) updateFields.zipcode = req.body.zipcode;
+        
+        // Update the user with only the editable fields
+        const updatedUser = await DB.updateUser({ email: user.email, ...updateFields });
         res.send(updatedUser);
     } else {
         res.status(401).send({ msg: 'Unauthorized' });
@@ -207,20 +226,25 @@ app.use((_req, res) => {
     res.sendFile(indexPath);
 });
 
-async function createUser(username, password) {
+async function createUser(email, password) {
+    console.log('Creating user with email:', email);
     const passwordHash = await bcrypt.hash(password, 10);
+    const newToken = uuid.v4();
     const user = {
         accountType: 'User',
-        username: username,
+        email: email,
         password: passwordHash,
-        token: uuid.v4(),
-        email: null,
+        tokens: [newToken],
+        username: null,
         name: null,
         bio: null,
         zipcode: null,
     };
+    console.log('User object before DB insert:', user);
     await DB.addUser(user);
-    return user;
+    console.log('User created successfully in DB');
+    // Return user with token property for compatibility
+    return { ...user, token: newToken };
 }
 
 async function findUser(field, value) {
@@ -228,11 +252,13 @@ async function findUser(field, value) {
   if (field === 'token') {
     return DB.getUserByToken(value);
   }
-    if (field === 'username') {
-        return DB.getUserByUsername(value);
-    }
-    // fallback: try by email
-    return DB.getUser(value);
+  if (field === 'email') {
+    return DB.getUserByEmail(value);
+  }
+  if (field === 'username') {
+    return DB.getUserByUsername(value);
+  }
+  return null;
 }
 
 
@@ -248,9 +274,13 @@ async function updateUser(username, data) {
 
 // THIS IS A MINIMAL cookie setter for auth (dev-friendly)
 function setAuthCookie(res, user) {
-    // Ensure user has a token
-    if (!user.token) user.token = uuid.v4();
-    res.cookie(authCookieName, user.token, {
+    // Get the token from the user object (used during login/registration)
+    // or from the last token in the tokens array (most recently created)
+    const token = user.token || (user.tokens && user.tokens[user.tokens.length - 1]);
+    if (!token) {
+        throw new Error('No token available for user');
+    }
+    res.cookie(authCookieName, token, {
         maxAge: 1000 * 60 * 60 * 24 * 365,
         httpOnly: true,
         // For local development avoid secure:true because it requires HTTPS.
@@ -308,8 +338,8 @@ async function createPost(username, data) {
     };
     // Persist to external DB
     const res = await DB.createPost(post);
-    // Mongo returns insertedId; attach it as id for compatibility
-    if (res && res.insertedId) post.id = res.insertedId;
+    // MongoDB automatically assigns _id
+    if (res && res.insertedId) post._id = res.insertedId;
     return post;
 }
 

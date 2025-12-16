@@ -34,28 +34,28 @@ export function ProfileEditForm({ initialData = {}, onSubmit, onCancel }) {
     return (
         <form onSubmit={handleSubmit} className="post-form" style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'left' }}>
             <div className="form-group mb-3">
-                <label htmlFor="username">Username</label>
+                <label htmlFor="username">Username (optional)</label>
                 <input
                     type="text"
                     className="form-control"
                     id="username"
                     name="username"
                     value={formData.username}
-                    disabled
+                    onChange={handleChange}
+                    placeholder="Enter a username"
                 />
             </div>
 
             <div className="form-group mb-3">
                 <label htmlFor="email">Email</label>
                 <input
-                    type="text"
+                    type="email"
                     className="form-control"
                     id="email"
                     name="email"
                     value={formData.email}
-                    onChange={handleChange}
+                    readOnly
                     placeholder="Enter an email"
-                    required
                 />
             </div>
 
@@ -87,13 +87,13 @@ export function ProfileEditForm({ initialData = {}, onSubmit, onCancel }) {
             </div>
 
             <div className="form-group mb-3">
-                <label htmlFor="location">Location (This is private, and will help you find local events!)</label>
+                <label htmlFor="zipcode">Location (This is private, and will help you find local events!)</label>
                 <input
                     type="text"
                     className="form-control"
-                    id="location"
-                    name="location"
-                    value={formData.location}
+                    id="zipcode"
+                    name="zipcode"
+                    value={formData.zipcode}
                     onChange={handleChange}
                     placeholder="Enter a zip code"
                     required
