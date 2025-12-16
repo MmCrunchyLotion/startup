@@ -4,9 +4,14 @@ const cookieParser = require('cookie-parser');
 const DB = require('./database.js');
 const uuid = require('uuid');
 const path = require('path');
+const http = require('http');
+const WebSocket = require('ws');
 
 // In-memory "post database" (declare early so middleware can reference if needed)
 const posts = [];
+
+// WebSocket clients connected
+const wsClients = new Set();
 
 const app = express();
 
@@ -177,6 +182,15 @@ apiRouter.put('/user', async (req, res) => {
         
         // Update the user with only the editable fields
         const updatedUser = await DB.updateUser({ email: user.email, ...updateFields });
+        // Broadcast profile update
+        broadcast({ 
+            type: 'profileUpdate', 
+            email: user.email,
+            username: updatedUser.username,
+            name: updatedUser.name,
+            bio: updatedUser.bio,
+            zipcode: updatedUser.zipcode
+        });
         res.send(updatedUser);
     } else {
         res.status(401).send({ msg: 'Unauthorized' });
@@ -192,6 +206,11 @@ apiRouter.post('/posts', async (req, res) => {
         // Handle creating a post here
         console.log('Creating post for user:', user.username);
         const post = await createPost(user.username, req.body);
+        // Broadcast new post
+        broadcast({ 
+            type: 'postCreate', 
+            post: post
+        });
         res.send(post);
     } else {
         res.status(401).send({ msg: 'Unauthorized' });
@@ -203,6 +222,82 @@ apiRouter.post('/posts', async (req, res) => {
 apiRouter.get('/posts', async (req, res) => {
     const posts = await getPosts();
     res.send(posts);
+});
+
+// Delete a post
+apiRouter.delete('/posts/:postId', async (req, res) => {
+    const token = req.cookies['token'];
+    const user = await findUser('token', token);
+    if (user) {
+        const deleted = await DB.deletePost(req.params.postId, user.username);
+        if (deleted) {
+            // Broadcast post deletion
+            broadcast({ 
+                type: 'postDelete', 
+                postId: req.params.postId
+            });
+            res.send({ msg: 'Post deleted' });
+        } else {
+            res.status(403).send({ msg: 'Unauthorized to delete this post' });
+        }
+    } else {
+        res.status(401).send({ msg: 'Unauthorized' });
+    }
+});
+
+// Create a comment on a post
+apiRouter.post('/comments/:postId', async (req, res) => {
+    const token = req.cookies['token'];
+    const user = await findUser('token', token);
+    if (user) {
+        const comment = await DB.addComment(req.params.postId, {
+            username: user.username,
+            email: user.email,
+            text: req.body.text,
+            timestamp: new Date().toISOString()
+        });
+        if (comment) {
+            // Broadcast new comment
+            broadcast({ 
+                type: 'commentCreate', 
+                postId: req.params.postId,
+                comment: comment
+            });
+            res.send(comment);
+        } else {
+            res.status(404).send({ msg: 'Post not found' });
+        }
+    } else {
+        res.status(401).send({ msg: 'Unauthorized' });
+    }
+});
+
+// Get comments for a post (no auth required)
+apiRouter.get('/comments/:postId', async (req, res) => {
+    const comments = await DB.getComments(req.params.postId);
+    res.send(comments);
+});
+
+// Delete a comment
+apiRouter.delete('/comments/:postId/:commentId', async (req, res) => {
+    const token = req.cookies['token'];
+    const user = await findUser('token', token);
+    if (user) {
+        const deleted = await DB.deleteComment(req.params.postId, req.params.commentId, user.email);
+        if (deleted) {
+            // Broadcast comment deletion
+            broadcast({ 
+                type: 'commentDelete', 
+                postId: req.params.postId,
+                commentId: req.params.commentId
+            });
+            res.send({ msg: 'Comment deleted' });
+        } else {
+            res.status(403).send({ msg: 'Unauthorized to delete this comment' });
+        }
+    } else {
+        res.status(401).send({ msg: 'Unauthorized' });
+    }
 });
 
 // TODO: update to match external DB structure
@@ -364,7 +459,35 @@ async function eventRadiusSearch(userLat, userLon, radiusKm) {
 
 // Starting backend service
 const port = 8080;
-app.listen(port, function () {
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+
+// WebSocket connection handler
+wss.on('connection', (ws) => {
+    console.log('New WebSocket client connected');
+    wsClients.add(ws);
+    
+    ws.on('close', () => {
+        console.log('WebSocket client disconnected');
+        wsClients.delete(ws);
+    });
+    
+    ws.on('error', (error) => {
+        console.error('WebSocket error:', error);
+        wsClients.delete(ws);
+    });
+});
+
+// Broadcast function for real-time updates
+function broadcast(message) {
+    wsClients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify(message));
+        }
+    });
+}
+
+server.listen(port, function () {
     console.log(`Listening on port ${port}`);
 });
 module.exports = app;

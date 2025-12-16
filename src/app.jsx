@@ -112,18 +112,18 @@ function NavbarContent({ isAuthed, setIsAuthed }) {
                         <li className="nav-item"><NavLink className="nav-link text-dark" to="">Home</NavLink></li>
                         <li className="nav-item"><NavLink className="nav-link text-dark" to="teacher-finder">Find a teacher</NavLink></li>
                         <li className="nav-item"><NavLink className="nav-link text-dark" to="events">Events</NavLink></li>
-                        {isAuthed === AuthState.Authenticated && (
+                        {isAuthed && (
                             <li className="nav-item"><NavLink className="nav-link text-dark" to="profile">Your Profile</NavLink></li>
                         )}
                         {/* TODO: Add a people tab? */}
                     </ul>
                     <div className="ms-auto">
-                        {isAuthed === AuthState.Authenticated && (
+                        {isAuthed && (
                             <button id="login-logout-button" onClick={handleLogoutClick} style={{backgroundColor: '#ff6347', border: 'none', cursor: 'pointer', color: '#000', textDecoration: 'none', padding: '0.5rem 1rem', display: 'block'}}>
                                 Logout
                             </button>
                         )}
-                        {isAuthed === AuthState.NotAuthenticated && (
+                        {!isAuthed && (
                             <button id="login-logout-button" onClick={() => navigate('/login')} style={{backgroundColor: '#ff6347', border: 'none', cursor: 'pointer', color: '#000', textDecoration: 'none', padding: '0.5rem 1rem', display: 'block'}}>
                                 Login
                             </button>

@@ -90,6 +90,141 @@ footer {
   border-radius: 0.25em;
 }
 
+/* Comments Section Styles */
+.comments-section {
+  margin-top: 1em;
+  padding-top: 1em;
+  border-top: 1px solid #e0e0e0;
+  width: 100%;
+}
+
+.toggle-comments-btn {
+  background-color: #ff6347;
+  color: #000;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 0.25em;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.toggle-comments-btn:hover {
+  background-color: #ff5236;
+}
+
+.comments-container {
+  margin-top: 1em;
+  padding: 1em;
+  background-color: #f9f9f9;
+  border-radius: 0.5em;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.comment-input {
+  padding: 0.5em;
+  border: 1px solid #ddd;
+  border-radius: 0.25em;
+  font-family: Quicksand, sans-serif;
+  resize: vertical;
+}
+
+.comment-submit-btn {
+  background-color: #ff6347;
+  color: #000;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 0.25em;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.comment-submit-btn:hover {
+  background-color: #ff5236;
+}
+
+.login-prompt {
+  text-align: center;
+  color: #666;
+  margin: 1em 0;
+}
+
+.login-prompt a {
+  color: #ff6347;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-prompt a:hover {
+  text-decoration: underline;
+}
+
+.no-comments {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  margin: 1em 0;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.comment {
+  padding: 1em;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.25em;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
+.comment-author {
+  font-weight: bold;
+  color: #333;
+}
+
+.comment-time {
+  font-size: 0.85em;
+  color: #999;
+}
+
+.comment-text {
+  margin: 0.5em 0;
+  color: #333;
+  word-wrap: break-word;
+}
+
+.delete-comment-btn {
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  padding: 0.3em 0.7em;
+  border-radius: 0.25em;
+  font-size: 0.85em;
+  cursor: pointer;
+  margin-top: 0.5em;
+}
+
+.delete-comment-btn:hover {
+  background-color: #cc0000;
+}
+
 footer a {
   float: right;
 }

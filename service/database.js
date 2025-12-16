@@ -60,9 +60,59 @@ async function createPost(post) {
     return postCollection.insertOne(post);
 }
 
+async function deletePost(postId, username) {
+    // Only allow deleting own posts
+    const { ObjectId } = require('mongodb');
+    const result = await postCollection.deleteOne({ 
+        _id: new ObjectId(postId),
+        username: username
+    });
+    return result.deletedCount > 0;
+}
+
 // TODO: limit the size of entries that this fetches so that DB isn't overloaded each time this is called
 async function getPosts() {
     return postCollection.find({}).toArray();
+}
+
+async function addComment(postId, comment) {
+    const { ObjectId } = require('mongodb');
+    // Generate a unique ID for the comment
+    comment._id = new ObjectId();
+    const result = await postCollection.updateOne(
+        { _id: new ObjectId(postId) },
+        { $push: { comments: comment } }
+    );
+    if (result.modifiedCount > 0) {
+        return comment;
+    }
+    return null;
+}
+
+async function getComments(postId) {
+    const { ObjectId } = require('mongodb');
+    const post = await postCollection.findOne({ _id: new ObjectId(postId) });
+    return post?.comments || [];
+}
+
+async function deleteComment(postId, commentId, userEmail) {
+    const { ObjectId } = require('mongodb');
+    // First verify the user owns this comment
+    const post = await postCollection.findOne({ 
+        _id: new ObjectId(postId),
+        'comments._id': new ObjectId(commentId),
+        'comments.email': userEmail
+    });
+    
+    if (!post) {
+        return false;
+    }
+    
+    const result = await postCollection.updateOne(
+        { _id: new ObjectId(postId) },
+        { $pull: { comments: { _id: new ObjectId(commentId) } } }
+    );
+    return result.modifiedCount > 0;
 }
 
 module.exports = {
@@ -73,5 +123,9 @@ module.exports = {
     addUser,
     updateUser,
     createPost,
-    getPosts
+    deletePost,
+    getPosts,
+    addComment,
+    getComments,
+    deleteComment
 };
